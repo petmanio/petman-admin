@@ -1,0 +1,4 @@
+.idea
+.pyc
+petman_admin/settings.py
+__pycache__
