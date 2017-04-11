@@ -25,7 +25,7 @@ SECRET_KEY = '=6e8qq+*@ip6$2-kiz75xu4+0q3-%_-c20*oo84k_dcq(g2c!3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -54,8 +54,8 @@ ROOT_URLCONF = 'petman_admin.urls'
 
 TEMPLATES = [
     {
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -123,4 +123,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = 'static'
+# STATIC_ROOT = 'static'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
