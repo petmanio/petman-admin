@@ -34,6 +34,7 @@ class Userdata(models.Model):
         managed = False
         db_table = 'userdata'
 
+
 class Authprovider(models.Model):
     user = models.IntegerField(blank=True, null=True)
     provider = models.TextField(blank=True, null=True)
@@ -60,22 +61,22 @@ class Blog(models.Model):
         managed = False
         db_table = 'blog'
 
-class Petcarecategory(models.Model):
+class Category(models.Model):
     name = models.TextField(blank=True, null=True)
     createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
     updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        verbose_name = 'Pet Care Category'
-        verbose_name_plural = 'Pet Care Categories'
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
         managed = False
-        db_table = 'petcarecategory'
+        db_table = 'category'
 
     def __str__(self):
         return self.name
 
 
-class Petcare(models.Model):
+class Location(models.Model):
     name = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     link = models.TextField(blank=True, null=True)
@@ -85,30 +86,30 @@ class Petcare(models.Model):
     createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
     updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
 
-    categories = models.ManyToManyField(Petcarecategory, through='PetcareCategoriesPetcarecategoryOwners')
+    categories = models.ManyToManyField(Category, through='CategoryLocationsLocationCategories')
 
     class Meta:
-        verbose_name = 'Pet Care'
+        verbose_name = 'Location'
         managed = False
-        db_table = 'petcare'
+        db_table = 'location'
 
     def __str__(self):
         return self.name
 
 
-class PetcareCategoriesPetcarecategoryOwners(models.Model):
-    petcare_categories = models.ForeignKey(Petcare, on_delete=models.CASCADE, db_column='petcare_categories', verbose_name='Name')
-    petcarecategory_owners = models.ForeignKey(Petcarecategory, on_delete=models.CASCADE, db_column='petcarecategory_owners', verbose_name='Category')
+class CategoryLocationsLocationCategories(models.Model):
+    location_categories = models.ForeignKey(Location, on_delete=models.CASCADE, db_column='location_categories', verbose_name='Location')
+    category_locations = models.ForeignKey(Category, on_delete=models.CASCADE, db_column='category_locations', verbose_name='Category')
 
     class Meta:
         verbose_name = 'Category Mapping'
         verbose_name_plural = 'Category Mappings'
         managed = False
-        auto_created = Petcare
-        db_table = 'petcare_categories__petcarecategory_owners'
+        auto_created = Location
+        db_table = 'category_locations__location_categories'
 
     def __str__(self):
-        return self.petcarecategory_owners.name + '/' + self.petcare_categories.name
+        return self.category_locations.name + '/' + self.location_categories.name
 
 
 class Shop(models.Model):
