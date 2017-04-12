@@ -60,6 +60,10 @@ class Blog(models.Model):
     class Meta:
         managed = False
         db_table = 'blog'
+        default_permissions = ('add', 'change', 'delete', 'view')
+
+    def __str__(self):
+        return self.source + '/' + self.link
 
 class Category(models.Model):
     name = models.TextField(blank=True, null=True)
@@ -71,6 +75,7 @@ class Category(models.Model):
         verbose_name_plural = 'Categories'
         managed = False
         db_table = 'category'
+        default_permissions = ('add', 'change', 'delete', 'view')
 
     def __str__(self):
         return self.name
@@ -92,6 +97,7 @@ class Location(models.Model):
         verbose_name = 'Location'
         managed = False
         db_table = 'location'
+        default_permissions = ('add', 'change', 'delete', 'view')
 
     def __str__(self):
         return self.name
