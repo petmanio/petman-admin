@@ -9,6 +9,8 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+# TODO: update models
+
 class User(models.Model):
     email = models.TextField(unique=True, blank=True, null=True)
     password = models.TextField(blank=True, null=True)
@@ -21,7 +23,7 @@ class User(models.Model):
         db_table = 'user'
 
 
-class Userdata(models.Model):
+class UserData(models.Model):
     user = models.IntegerField(blank=True, null=True)
     gender = models.TextField(blank=True, null=True)
     avatar = models.TextField(blank=True, null=True)
@@ -32,10 +34,10 @@ class Userdata(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'userdata'
+        db_table = 'user_data'
 
 
-class Authprovider(models.Model):
+class AuthProvider(models.Model):
     user = models.IntegerField(blank=True, null=True)
     provider = models.TextField(blank=True, null=True)
     fbid = models.TextField(db_column='fbId', unique=True, blank=True, null=True)  # Field name made lowercase.
@@ -45,7 +47,7 @@ class Authprovider(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'authprovider'
+        db_table = 'auth_provider'
 
 
 class Blog(models.Model):
@@ -63,7 +65,7 @@ class Blog(models.Model):
         default_permissions = ('add', 'change', 'delete', 'view')
 
     def __str__(self):
-        return self.source + '/' + self.link
+        return self.source + ' / ' + self.link
 
 class Category(models.Model):
     name = models.TextField(blank=True, null=True)
