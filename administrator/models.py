@@ -1,47 +1,47 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
 from __future__ import unicode_literals
 
 from django.db import models
 
-# TODO: update models
-
-class User(models.Model):
-    email = models.TextField(unique=True, blank=True, null=True)
-    password = models.TextField(blank=True, null=True)
-    userdata = models.IntegerField(db_column='userData', blank=True, null=True)  # Field name made lowercase.
-    createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
-    updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'user'
-
-
-class UserData(models.Model):
+class Adopt(models.Model):
+    description = models.TextField(blank=True, null=True)
     user = models.IntegerField(blank=True, null=True)
-    gender = models.TextField(blank=True, null=True)
-    avatar = models.TextField(blank=True, null=True)
-    firstname = models.TextField(db_column='firstName', blank=True, null=True)  # Field name made lowercase.
-    lastname = models.TextField(db_column='lastName', blank=True, null=True)  # Field name made lowercase.
+    deletedat = models.DateTimeField(db_column='deletedAt', blank=True, null=True)  # Field name made lowercase.
     createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
     updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
-        db_table = 'user_data'
+        db_table = 'adopt'
+
+
+class AdoptComment(models.Model):
+    comment = models.TextField(blank=True, null=True)
+    adopt = models.IntegerField(blank=True, null=True)
+    user = models.IntegerField(blank=True, null=True)
+    createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
+    updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'adopt_comment'
+
+
+class AdoptImage(models.Model):
+    src = models.TextField(blank=True, null=True)
+    adopt = models.IntegerField(blank=True, null=True)
+    createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
+    updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'adopt_image'
 
 
 class AuthProvider(models.Model):
     user = models.IntegerField(blank=True, null=True)
-    provider = models.TextField(blank=True, null=True)
-    fbid = models.TextField(db_column='fbId', unique=True, blank=True, null=True)  # Field name made lowercase.
-    fbaccesstoken = models.TextField(db_column='fbAccessToken', blank=True, null=True)  # Field name made lowercase.
+    type = models.TextField(blank=True, null=True)
+    externalid = models.TextField(db_column='externalId', unique=True, blank=True, null=True)  # Field name made lowercase.
+    accesstoken = models.TextField(db_column='accessToken', blank=True, null=True)  # Field name made lowercase.
     createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
     updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
 
@@ -52,8 +52,9 @@ class AuthProvider(models.Model):
 
 class Blog(models.Model):
     source = models.TextField(blank=True, null=True)
+    icon = models.TextField(blank=True, null=True)
+    sourcecreatedat = models.DateTimeField(db_column='sourceCreatedAt', blank=True, null=True)  # Field name made lowercase.
     description = models.TextField(blank=True, null=True)
-    date = models.DateField(blank=True, null=True)
     link = models.TextField(unique=True, blank=True, null=True)
     thumbnail = models.TextField(blank=True, null=True)
     createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
@@ -66,6 +67,7 @@ class Blog(models.Model):
 
     def __str__(self):
         return self.source + ' / ' + self.link
+
 
 class Category(models.Model):
     name = models.TextField(blank=True, null=True)
@@ -119,147 +121,294 @@ class CategoryLocationsLocationCategories(models.Model):
     def __str__(self):
         return self.category_locations.name + '/' + self.location_categories.name
 
+class Notification(models.Model):
+    from_field = models.IntegerField(db_column='from', blank=True, null=True)  # Field renamed because it was a Python reserved word.
+    to = models.IntegerField(blank=True, null=True)
+    roomapplicationcreate = models.IntegerField(db_column='roomApplicationCreate', blank=True, null=True)  # Field name made lowercase.
+    roomapplicationstatusupdate = models.IntegerField(db_column='roomApplicationStatusUpdate', blank=True, null=True)  # Field name made lowercase.
+    roomapplicationmessagecreate = models.IntegerField(db_column='roomApplicationMessageCreate', blank=True, null=True)  # Field name made lowercase.
+    walkerapplicationcreate = models.IntegerField(db_column='walkerApplicationCreate', blank=True, null=True)  # Field name made lowercase.
+    walkerapplicationstatusupdate = models.IntegerField(db_column='walkerApplicationStatusUpdate', blank=True, null=True)  # Field name made lowercase.
+    walkerapplicationmessagecreate = models.IntegerField(db_column='walkerApplicationMessageCreate', blank=True, null=True)  # Field name made lowercase.
+    adoptcommentcreate = models.IntegerField(db_column='adoptCommentCreate', blank=True, null=True)  # Field name made lowercase.
+    seen = models.NullBooleanField()
+    createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
+    updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
 
-class Shop(models.Model):
+    class Meta:
+        managed = False
+        db_table = 'notification'
+
+
+class NotificationAdoptCommentCreate(models.Model):
+    adopt = models.IntegerField(blank=True, null=True)
+    comment = models.IntegerField(blank=True, null=True)
+    createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
+    updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'notification_adopt_comment_create'
+
+
+class NotificationRoomApplicationCreate(models.Model):
+    room = models.IntegerField(blank=True, null=True)
+    application = models.IntegerField(blank=True, null=True)
+    createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
+    updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'notification_room_application_create'
+
+
+class NotificationRoomApplicationMessageCreate(models.Model):
+    room = models.IntegerField(blank=True, null=True)
+    application = models.IntegerField(blank=True, null=True)
+    message = models.IntegerField(blank=True, null=True)
+    createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
+    updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'notification_room_application_message_create'
+
+
+class NotificationRoomApplicationStatusUpdate(models.Model):
+    room = models.IntegerField(blank=True, null=True)
+    application = models.IntegerField(blank=True, null=True)
+    prevstatus = models.TextField(db_column='prevStatus', blank=True, null=True)  # Field name made lowercase.
+    currentstatus = models.TextField(db_column='currentStatus', blank=True, null=True)  # Field name made lowercase.
+    createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
+    updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'notification_room_application_status_update'
+
+
+class NotificationWalkerApplicationCreate(models.Model):
+    walker = models.IntegerField(blank=True, null=True)
+    application = models.IntegerField(blank=True, null=True)
+    createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
+    updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'notification_walker_application_create'
+
+
+class NotificationWalkerApplicationMessageCreate(models.Model):
+    walker = models.IntegerField(blank=True, null=True)
+    application = models.IntegerField(blank=True, null=True)
+    message = models.IntegerField(blank=True, null=True)
+    createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
+    updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'notification_walker_application_message_create'
+
+
+class NotificationWalkerApplicationStatusUpdate(models.Model):
+    walker = models.IntegerField(blank=True, null=True)
+    application = models.IntegerField(blank=True, null=True)
+    prevstatus = models.TextField(db_column='prevStatus', blank=True, null=True)  # Field name made lowercase.
+    currentstatus = models.TextField(db_column='currentStatus', blank=True, null=True)  # Field name made lowercase.
+    createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
+    updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'notification_walker_application_status_update'
+
+
+class Pet(models.Model):
     name = models.TextField(blank=True, null=True)
+    createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
+    updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'pet'
+
+
+class PetImage(models.Model):
+    src = models.TextField(blank=True, null=True)
+    pet = models.IntegerField(blank=True, null=True)
+    createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
+    updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'pet_image'
+
+
+class PetPostsPostPets(models.Model):
+    pet_posts = models.IntegerField(blank=True, null=True)
+    post_pets = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'pet_posts__post_pets'
+
+
+class PetUsersUserPets(models.Model):
+    pet_users = models.IntegerField(blank=True, null=True)
+    user_pets = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'pet_users__user_pets'
+
+
+class Post(models.Model):
+    text = models.TextField(blank=True, null=True)
+    user = models.IntegerField(blank=True, null=True)
+    createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
+    updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'post'
+
+
+class PostImage(models.Model):
+    src = models.TextField(blank=True, null=True)
+    post = models.IntegerField(blank=True, null=True)
+    createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
+    updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'post_image'
+
+
+class Room(models.Model):
     description = models.TextField(blank=True, null=True)
-    link = models.TextField(blank=True, null=True)
-    thumbnail = models.TextField(blank=True, null=True)
-    lat = models.FloatField(blank=True, null=True)
-    lng = models.FloatField(blank=True, null=True)
+    cost = models.FloatField(blank=True, null=True)
+    user = models.IntegerField(blank=True, null=True)
+    isavailable = models.NullBooleanField(db_column='isAvailable')  # Field name made lowercase.
     createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
     updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
-        db_table = 'shop'
+        db_table = 'room'
 
 
-class AuthGroup(models.Model):
-    name = models.CharField(unique=True, max_length=80)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_group'
-
-
-class AuthGroupPermissions(models.Model):
-    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
-    permission = models.ForeignKey('AuthPermission', models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_group_permissions'
-        unique_together = (('group', 'permission'),)
-
-
-class AuthPermission(models.Model):
-    name = models.CharField(max_length=255)
-    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
-    codename = models.CharField(max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_permission'
-        unique_together = (('content_type', 'codename'),)
-
-
-class AuthUser(models.Model):
-    password = models.CharField(max_length=128)
-    last_login = models.DateTimeField(blank=True, null=True)
-    is_superuser = models.BooleanField()
-    username = models.CharField(unique=True, max_length=150)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    email = models.CharField(max_length=254)
-    is_staff = models.BooleanField()
-    is_active = models.BooleanField()
-    date_joined = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user'
-
-
-class AuthUserGroups(models.Model):
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user_groups'
-        unique_together = (('user', 'group'),)
-
-
-class AuthUserUserPermissions(models.Model):
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user_user_permissions'
-        unique_together = (('user', 'permission'),)
-
-
-class DjangoAdminLog(models.Model):
-    action_time = models.DateTimeField()
-    object_id = models.TextField(blank=True, null=True)
-    object_repr = models.CharField(max_length=200)
-    action_flag = models.SmallIntegerField()
-    change_message = models.TextField()
-    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'django_admin_log'
-
-
-class DjangoContentType(models.Model):
-    app_label = models.CharField(max_length=100)
-    model = models.CharField(max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = 'django_content_type'
-        unique_together = (('app_label', 'model'),)
-
-
-class DjangoMigrations(models.Model):
-    app = models.CharField(max_length=255)
-    name = models.CharField(max_length=255)
-    applied = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'django_migrations'
-
-
-class DjangoSession(models.Model):
-    session_key = models.CharField(primary_key=True, max_length=40)
-    session_data = models.TextField()
-    expire_date = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'django_session'
-
-
-class Language(models.Model):
+class RoomApplication(models.Model):
+    rating = models.IntegerField(blank=True, null=True)
+    review = models.TextField(blank=True, null=True)
+    consumer = models.IntegerField(blank=True, null=True)
+    provider = models.IntegerField(blank=True, null=True)
+    room = models.IntegerField(blank=True, null=True)
+    status = models.TextField(blank=True, null=True)
+    finishedat = models.DateTimeField(db_column='finishedAt', blank=True, null=True)  # Field name made lowercase.
+    deletedat = models.DateTimeField(db_column='deletedAt', blank=True, null=True)  # Field name made lowercase.
     createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
     updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
-        db_table = 'language'
+        db_table = 'room_application'
 
 
-class Translations(models.Model):
+class RoomApplicationMessage(models.Model):
+    from_field = models.IntegerField(db_column='from', blank=True, null=True)  # Field renamed because it was a Python reserved word.
+    to = models.IntegerField(blank=True, null=True)
+    application = models.IntegerField(blank=True, null=True)
+    room = models.IntegerField(blank=True, null=True)
+    message = models.TextField(blank=True, null=True)
+    seen = models.NullBooleanField()
+    deletedat = models.DateTimeField(db_column='deletedAt', blank=True, null=True)  # Field name made lowercase.
     createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
     updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
-        db_table = 'translations'
+        db_table = 'room_application_message'
 
 
+class RoomImage(models.Model):
+    src = models.TextField(blank=True, null=True)
+    room = models.IntegerField(blank=True, null=True)
+    createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
+    updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'room_image'
+
+
+class User(models.Model):
+    email = models.TextField(unique=True, blank=True, null=True)
+    password = models.TextField(blank=True, null=True)
+    userdata = models.IntegerField(db_column='userData', blank=True, null=True)  # Field name made lowercase.
+    socketid = models.TextField(db_column='socketId', blank=True, null=True)  # Field name made lowercase.
+    createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
+    updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'user'
+
+
+class UserData(models.Model):
+    user = models.IntegerField(blank=True, null=True)
+    gender = models.TextField(blank=True, null=True)
+    avatar = models.TextField(blank=True, null=True)
+    firstname = models.TextField(db_column='firstName', blank=True, null=True)  # Field name made lowercase.
+    lastname = models.TextField(db_column='lastName', blank=True, null=True)  # Field name made lowercase.
+    createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
+    updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'user_data'
+
+
+class Walker(models.Model):
+    description = models.TextField(blank=True, null=True)
+    cost = models.FloatField(blank=True, null=True)
+    user = models.IntegerField(blank=True, null=True)
+    isavailable = models.NullBooleanField(db_column='isAvailable')  # Field name made lowercase.
+    createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
+    updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'walker'
+
+
+class WalkerApplication(models.Model):
+    rating = models.IntegerField(blank=True, null=True)
+    review = models.TextField(blank=True, null=True)
+    consumer = models.IntegerField(blank=True, null=True)
+    provider = models.IntegerField(blank=True, null=True)
+    walker = models.IntegerField(blank=True, null=True)
+    status = models.TextField(blank=True, null=True)
+    finishedat = models.DateTimeField(db_column='finishedAt', blank=True, null=True)  # Field name made lowercase.
+    deletedat = models.DateTimeField(db_column='deletedAt', blank=True, null=True)  # Field name made lowercase.
+    createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
+    updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'walker_application'
+
+
+class WalkerApplicationMessage(models.Model):
+    from_field = models.IntegerField(db_column='from', blank=True, null=True)  # Field renamed because it was a Python reserved word.
+    to = models.IntegerField(blank=True, null=True)
+    application = models.IntegerField(blank=True, null=True)
+    walker = models.IntegerField(blank=True, null=True)
+    message = models.TextField(blank=True, null=True)
+    seen = models.NullBooleanField()
+    deletedat = models.DateTimeField(db_column='deletedAt', blank=True, null=True)  # Field name made lowercase.
+    createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
+    updatedat = models.DateTimeField(db_column='updatedAt', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'walker_application_message'
