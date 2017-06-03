@@ -75,13 +75,24 @@ WSGI_APPLICATION = 'petman_admin.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'dfvgb5enpjlro4',
+#         'USER': 'foibrztxpbokmn',
+#         'PASSWORD': '567be06af21a5a9471b1fa22890fd9fb80fc453a7b734bdb8ce5983d868cc4ff',
+#         'HOST': 'ec2-54-75-239-190.eu-west-1.compute.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dfvgb5enpjlro4',
-        'USER': 'foibrztxpbokmn',
-        'PASSWORD': '567be06af21a5a9471b1fa22890fd9fb80fc453a7b734bdb8ce5983d868cc4ff',
-        'HOST': 'ec2-54-75-239-190.eu-west-1.compute.amazonaws.com',
+        'NAME': 'petman',
+        'USER': 'petman',
+        'PASSWORD': 'o7ZKBb9tBdszHVWCG7Rxfi1w7plar0epieDA3v86GzU=',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
